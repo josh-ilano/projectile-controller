@@ -2,18 +2,31 @@
 
 A modular projectile framework for Roblox combat systems, built to support **linear**, **curved**, **multi-stage**, and **moving-target-tracked** projectiles.
 
-This repository demonstrates practical gameplay engineering skills in:
-- Real-time simulation and interpolation
-- Event-driven client/server architecture
-- Reusable module design in Luau
-- Extensible move/effect pipelines for game abilities
+---
+## Notable Algorithm
+CalculateMagnitude — Recursive Arc-Length Approximation
+The CalculateMagnitude method numerically approximates the arc length of a Bezier curve using recursive subdivision based on de Casteljau’s algorithm.
+
+**Problem:** Bezier curves are parameterized by t, not arc length. This means uniformly increasing t does not produce uniform spatial motion. To move a projectile at constant speed, we must approximate the true distance along the curve.
+  
+**Approach:** Midpoint Subdivision (t = 0.5)
+1) Uses de Casteljau’s algorithm to split the curve into two sub-curves.
+2)  Generates left and right control point sets.
+3) Piecewise Linear Approximation
+4) Connects sampled points along the subdivided curve.
+5) Computes total magnitude as the sum of linear segment distances.
+  
+**Recursive Refinement:**
+- If recursion depth j > 0, each sub-curve is subdivided again.
+- Results from both halves are summed.
+- Greater depth increases precision at higher computational cost.
+
+**Detailed Explanation:** Traditional Bezier sampling evaluates the curve at uniform parameter intervals (e.g., 0%, 10%, 20%, etc.). However, Bezier curves are not linear in parameter space, so equal t steps do not produce equal spatial distances. This can lead to clustered points in some regions and sparse coverage in others, especially in areas of high curvature.
+This implementation instead uses recursive subdivision based on de Casteljau’s algorithm. Rather than relying on uniform parameter increments, it splits the curve geometrically using its control points. This produces more spatially consistent resolution, more stable arc-length approximation, and uniform motion regardless of curve shape.
 
 ---
 
-## Why this project matters (for recruiters)
-
-This codebase is a strong example of gameplay systems engineering for multiplayer games:
-
+## Features
 - **Reusable architecture:** New abilities are integrated by adding move definitions and mapping them to projectile behaviors, rather than rewriting flight logic.
 - **Live target tracking:** Curved and linear paths can adapt in real time to moving casters/targets.
 - **Multi-stage projectile support:** A single move can chain multiple path segments and intermediate effects before impact.
@@ -121,14 +134,3 @@ Typical integration flow:
 This enables feature growth without changing the core projectile runtime.
 
 ---
-
-## Engineering takeaways
-
-This project showcases:
-- Gameplay systems design for multiplayer action experiences
-- Strong modularity and extensibility patterns
-- Practical math application (Bezier/path approximation)
-- Real-time simulation concerns (moving references, deterministic sequencing)
-- Roblox-specific production patterns (RunService heartbeat loops, RemoteEvents, Debris cleanup)
-
-If you are evaluating for gameplay programmer roles, this repository reflects ability to design reusable combat/motion systems rather than one-off scripted effects.

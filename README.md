@@ -1,7 +1,7 @@
 # Projectile Controller (Roblox / Luau)
 
 A modular projectile framework for Roblox combat systems, built to support **linear**, **curved**, **multi-stage**, and **moving-target-tracked** projectiles.
-
+**Relevant Code Here**: [Projectile System](https://github.com/josh-ilano/projectile-controller/tree/main/src/shared/ProjectileWrapper)
 ---
 ## Notable Algorithm
 CalculateMagnitude — Recursive Arc-Length Approximation

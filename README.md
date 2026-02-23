@@ -1,11 +1,13 @@
 # Projectile Controller (Roblox / Luau)
 
 A modular projectile framework for Roblox combat systems, built to support **linear**, **curved**, **multi-stage**, and **moving-target-tracked** projectiles.
-[ProjectileTracked.lua](https://github.com/josh-ilano/projectile-controller/blob/main/src/shared/ProjectileWrapper/ProjectileLibrary/ProjectileTracked.lua#L265-L321)
+
 ---
 ## Notable Algorithm
 CalculateMagnitude — Recursive Arc-Length Approximation
 The CalculateMagnitude method numerically approximates the arc length of a Bezier curve using recursive subdivision based on de Casteljau’s algorithm.
+
+**View Algorithm Here**: [ProjectileTracked.lua](https://github.com/josh-ilano/projectile-controller/blob/main/src/shared/ProjectileWrapper/ProjectileLibrary/ProjectileTracked.lua#L265-L321)
 
 **Problem:** Bezier curves are parameterized by t, not arc length. This means uniformly increasing t does not produce uniform spatial motion. To move a projectile at constant speed, we must approximate the true distance along the curve.
   
